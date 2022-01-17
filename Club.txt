@@ -1,0 +1,158 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+struct node *create();
+void add();
+void display();
+void add_s();
+struct node *delete();
+void deleteS();
+void deleteM();
+void reverse();
+struct node
+{
+   int prn, roll;
+   char name[20];
+   struct node *next;
+};
+int main()
+{
+   int op, a;
+   char ch;
+   int prn1;
+   struct node *head;
+   while (1)
+  { 
+     printf("Enter the choice \n1.Add President\n2.Add member\n3.Add secretory\n4.Delete Secretary  \n5.Display\n6.Delete Member\n7.Reverse\n8.Exit\n");
+     scanf("%d", &op);
+     switch (op)
+     {
+       case 1:
+ 
+           head = create();
+           break;
+       case 2:
+           printf("Enter the Count of member\n");
+           scanf("%d", &a);
+           add(a, head);
+           break;
+       case 3:
+           add_s(head);
+       case 4:
+         deleteS(head);
+       case 5:
+           display(head);
+           break;
+       case 6:
+       printf("Enter the PRN which want to delete\n");
+       scanf("%d",&prn1);
+           deleteM(head,prn1);
+       case 7 :
+           reverse(head);
+           break;
+       case 8:
+           goto out;
+       default:
+           break;
+     }
+   }
+     out:
+     return 0;
+}
+ 
+struct node *create()
+{
+   int p, r;
+   char name[20];
+   struct node *head;
+   head = (struct node *)malloc(sizeof(struct node));
+   printf("Enter the roll no,prn no and name of president of club\n");
+   scanf("%d%d", &r, &p);
+   scanf("%s", name);
+   head->prn = p;
+   head->roll = r;
+   strcpy(head->name, name);
+   head->next = NULL;
+   return head;
+}
+void add(int m, struct node *head)
+{
+   struct node *temp, *q;
+   int p, r;
+   q = head;
+   char n[20];
+   for (int i = 0; i < m; i++)
+   {
+       temp = (struct node *)malloc(sizeof(struct node));
+       printf("Enter the roll no,prn no and name of president of club\n");
+       scanf("%d%d", &r, &p);
+       scanf("%s", n);
+       temp->prn = p;
+       temp->roll = r;
+       strcpy(temp->name, n);
+       q->next = temp;
+       q = temp;
+   }
+}
+void add_s(struct node* head)
+{
+ struct node* new;
+ char n1[20];
+ new=(struct node*)malloc(sizeof(struct node));
+ printf("Enter the data\n");
+ scanf("%d",&new->prn);
+ scanf("%d",&new->roll);
+ scanf("%s",n1);
+ strcpy(n1,new->name);
+ new->next=NULL;
+ while(head!=NULL && head->next !=NULL)
+ {
+   head=head->next;
+ }
+ head->next=new;
+}
+struct node* delete(struct node * head )
+{
+ struct node* p;
+ p=head->next;
+ free(head);
+ return p;
+}
+void deleteS(struct node* head)
+{
+ while(head!=NULL && head->next!=NULL)
+ {
+    head=head->next;
+ }
+}
+void display(struct node *head)
+{
+ printf("Prn no Roll no Name\n");
+   while (head != NULL)
+   {
+       printf("%d\t\t%d\t\t%s\n", head->prn, head->roll, head->name);
+       head = head->next;
+   }
+}
+void deleteM(struct node *head,int p)
+{
+ struct node* q;
+ while(head->prn!=p)
+ {
+   q=head;
+   head=head->next;
+ }
+ q->next=head->next;
+ free(head);
+}
+void reverse(struct node *p)
+{
+ printf("Name prn roll\n");
+ if(p!=NULL)
+ {
+  
+   reverse(p->next);
+   printf("%s\t%d\t%d\n",p->name,p->prn,p->roll);
+ }
+}
